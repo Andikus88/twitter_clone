@@ -1,26 +1,26 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../../../common/rounded_small_button.dart';
-import '../widgets/auth_field.dart';
+
+import '../../../common/common.dart';
 import '../../../constants/constants.dart';
 import '../../../theme/theme.dart';
+import '../widgets/auth_field.dart';
 
-class LoginView extends ConsumerStatefulWidget {
-  const LoginView({super.key});
+class SignUpView extends ConsumerStatefulWidget {
+  const SignUpView({super.key});
   static route() => MaterialPageRoute(
-        builder: (context) => const LoginView(),
+        builder: (context) => const SignUpView(),
       );
 
   @override
-  ConsumerState<LoginView> createState() => _LoginViewState();
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
 }
 
-
-class _LoginViewState extends State<LoginView> {
+class _SignUpViewState extends State<SignUpView> {
   final appBar = UIConstants.appBar();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  
+
   @override
   void dispose() {
     super.dispose();
@@ -52,20 +52,24 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: 40.0),
                 RichText(
                   text: TextSpan(
-                    text: "Don't have an account?",
+                    text: "Already have an account?",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
                     children: [
                       TextSpan(
-                        text: " Sign up",
+                        text: " Login",
                         style: const TextStyle(
                           color: Pallete.blueColor,
                           fontSize: 16,
                         ),
-                        recognizer: TapGestureRecognizer()..onTap = () {
-                          Navigator.push(context, SignUpView.route());
-                          },
+                        recognizer: TapGestureRecognizer()..onTap = () 
+                        {Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginView(),
+                              ),
+                            );},
                       ),
                     ],
                   ),
