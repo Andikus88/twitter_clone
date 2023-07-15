@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/common.dart';
 import '../../../constants/constants.dart';
@@ -16,7 +17,7 @@ class SignUpView extends ConsumerStatefulWidget {
   ConsumerState<SignUpView> createState() => _SignUpViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _SignUpViewState extends ConsumerState<SignUpView> {
   final appBar = UIConstants.appBar();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -27,12 +28,22 @@ class _SignUpViewState extends State<SignUpView> {
     emailController.dispose();
     passwordController.dispose();
   }
+   void onSignUp() {
+    ref.read(authControllerProvider.notifier).signUp(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        );
+  }
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: appBar,
-      body: Center(
+      body: isLoading
+          ? const Loader()
+          : Center(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -45,7 +56,7 @@ class _SignUpViewState extends State<SignUpView> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: RoundedSmallButton(
-                    onTap: () {},
+                    onTap: onSignUp,
                     label: 'Done',
                   ),
                 ),
